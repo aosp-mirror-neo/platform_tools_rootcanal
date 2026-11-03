@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <utility>
 
 #include "log.h"
 #include "model/controller/le_controller.h"
@@ -274,19 +275,13 @@ ErrorCode LeController::LeApcfServiceSolicitationUuid(ApcfAction apcf_action,
 ErrorCode LeController::LeApcfLocalName(ApcfAction apcf_action, uint8_t apcf_filter_index,
                                         std::vector<uint8_t> apcf_local_name,
                                         uint8_t* apcf_available_spaces) {
-  size_t local_name_size = apcf_local_name.size() / 2;
-  std::vector<uint8_t> local_name(std::begin(apcf_local_name),
-                                  std::begin(apcf_local_name) + local_name_size);
-  std::vector<uint8_t> local_name_mask(std::begin(apcf_local_name) + local_name_size,
-                                       std::end(apcf_local_name));
-
   ErrorCode status = apcf_scanner_.UpdateFilterList(apcf_scanner_.local_name_filters,
                                                     properties_.le_apcf_local_name_filter_list_size,
                                                     apcf_action,
                                                     rootcanal::apcf::GapDataFilter{
                                                             .filter_index = apcf_filter_index,
-                                                            .gap_data = local_name,
-                                                            .gap_data_mask = local_name_mask,
+                                                            .gap_data = std::move(apcf_local_name),
+                                                            .gap_data_mask = {},
                                                     });
 
   *apcf_available_spaces =
