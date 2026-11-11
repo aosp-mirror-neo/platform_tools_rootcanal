@@ -44,8 +44,10 @@ cc_defaults {
     include_dirs: [
         "tools/rootcanal/include",
     ],
+    static_libs: [
+        "fmtlib",
+    ],
     header_libs: [
-        "libbase_headers",
         "pdl_cxx_packet_runtime",
     ],
     generated_headers: [
@@ -125,7 +127,6 @@ cc_library_static {
         "librootcanal_rs",
     ],
     shared_libs: [
-        "libbase",
         "libcrypto",
         "libprotobuf-cpp-full",
     ],
@@ -163,12 +164,12 @@ cc_library_host_shared {
     ],
     stl: "libc++_static",
     static_libs: [
+        "fmtlib",
         "libcrypto",
         "libprotobuf-cpp-full",
         "librootcanal_config",
     ],
     whole_static_libs: [
-        "libbase",
         "liblog",
         "librootcanal_rs",
     ],
@@ -225,11 +226,11 @@ cc_test_host {
         ".",
     ],
     shared_libs: [
-        "libbase",
         "libcrypto",
         "libprotobuf-cpp-full",
     ],
     static_libs: [
+        "fmtlib",
         "libbt-rootcanal",
     ],
 }
@@ -286,11 +287,11 @@ cc_test_host {
         "include",
     ],
     shared_libs: [
-        "libbase",
         "libcrypto",
         "libprotobuf-cpp-full",
     ],
     static_libs: [
+        "fmtlib",
         "libbt-rootcanal",
     ],
     cflags: [
@@ -312,7 +313,6 @@ cc_binary_host {
         "desktop/test_environment.cc",
     ],
     shared_libs: [
-        "libbase",
         "libunwindstack",
     ],
     whole_static_libs: [
@@ -320,6 +320,7 @@ cc_binary_host {
     ],
     static_libs: [
         "breakpad_client",
+        "fmtlib",
         "libcrypto",
         "libgflags",
         "libprotobuf-cpp-full",
